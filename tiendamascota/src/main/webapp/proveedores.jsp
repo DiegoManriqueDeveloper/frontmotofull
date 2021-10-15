@@ -18,7 +18,7 @@
 			<li><a style="background-color: purple" href="proveedores.jsp">proveedores</a>
 			<li><a href="productos.jsp">producto</a>
 			<li><a href="ventas.jsp">ventas</a>
-			<li><a href="operacion_no.jsp">reporte</a>
+			<li><a href="detalles_Ventas.jsp">detalles de ventas</a>
 			<li><a href="inicio.jsp"class="dropdown-item">salir</a>
 		</ul>	
 
