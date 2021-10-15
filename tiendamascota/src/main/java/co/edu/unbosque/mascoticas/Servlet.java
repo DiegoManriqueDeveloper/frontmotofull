@@ -16,7 +16,7 @@ import org.json.simple.parser.ParseException;
 /**
  * Servlet implementation class Servlet
  */
-@WebServlet("Servlet")
+@WebServlet("/Servlet")
 public class Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     /**
@@ -33,7 +33,9 @@ public class Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		//Los parametros son de los nombres de los botones del html
-		String login = request.getParameter("ValidacionLogin");
+		System.out.println("Llegó a doGet");
+		String login = request.getParameter("validacionLogin");
+		System.out.println("variable : "+ login);
 		String listar_rol = request.getParameter("ListarRoles");
 		String agregar_rol = request.getParameter("AgregarRol");
 		String actualizar_rol = request.getParameter("ActualizarRol");

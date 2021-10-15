@@ -12,14 +12,14 @@
 			<div class ="login-box" Style= border-radius:20px>
 				<img class= "avatar" src="./img/moto7.jpg" alt="logo de fazt" >
 				<h1>MECHANIC SERVICES</h1>
-				<form method = "get" action ="Servlet">
+				<form method = "get" action ="./Servlet">
 					<label for="ussername">ussername </label>
 					<input name="txtUsuario" type= "text"placeholder ="enter ussername"><br>
 			
 					<label for="password">password </label>
 					<input name="txtPassword" type= "password" placeholder ="enter password">
 			
-					<input type="submit" value ="Ingresar" name="validacionLogin">
+					<input type="submit" value ="IngresarLogin" name="validacionLogin">
 			
 					<a href ="#">lost your password?</a>
 					<a href ="#">do not have an account?</a>

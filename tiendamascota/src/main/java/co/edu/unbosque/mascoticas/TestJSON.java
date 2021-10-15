@@ -49,15 +49,17 @@ public class TestJSON {
 		}
 	
 	public static ArrayList<Usuarios> getJSONUsuarios() throws IOException, ParseException{
+		System.out.println("Ingresó a getJSONUsuarios");
 		url = new URL(sitio+"usuarios/listar");
-		String authStr = Base64.getEncoder().encodeToString("user:pass".getBytes());
+		String authStr = Base64.getEncoder().encodeToString("usuarioAPI:123".getBytes());
 		HttpURLConnection http = (HttpURLConnection)url.openConnection();
 		http.setRequestMethod("GET");
 		http.setRequestProperty("Accept", "application/json");
 		http.setRequestProperty("Authorization", "Basic " + authStr); 
 		InputStream respuesta = http.getInputStream();
-		//System.out.print(respuesta);
+		System.out.print("Respuesta: "+ respuesta);
 		byte[] inp = respuesta.readAllBytes();
+		
 		String json = "";
 		for (int i = 0; i<inp.length ; i++) {
 		json += (char)inp[i];
