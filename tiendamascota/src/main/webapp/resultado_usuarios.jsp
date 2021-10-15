@@ -53,9 +53,9 @@
 				<td><%=usuario.getCedula_usuario()%></td>
 				<td><%=usuario.getNombre_usuario()%></td>
 				<td><%=usuario.getEmail_usuario()%></td>
-				<td><%=usuario.getCelular_usuario()%></td>
+				<td><%=usuario.getUsuario()%></td>
 				<td><%=usuario.getPassword()%></td>
-				<td><%=usuario.getRol().getDescripcion()%></td>
+				
 			</tr>
 			<%
 			}
