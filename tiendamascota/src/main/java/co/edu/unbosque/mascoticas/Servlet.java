@@ -47,7 +47,7 @@ public class Servlet extends HttpServlet {
 		//Login
 		if (login != null) {
 			try {
-				System.out.println("Ingresó a la acción");
+				//System.out.println("Ingresó a la acción");
 				validacionLogin(request, response);
 			} catch (ParseException | ServletException e) {
 				// TODO Auto-generated catch block
@@ -101,16 +101,31 @@ public class Servlet extends HttpServlet {
 	public void validacionLogin(HttpServletRequest request, HttpServletResponse response) throws ParseException, ServletException {
 		try {
 			ArrayList<Usuarios> lista = TestJSON.getJSONUsuarios();
-			String pagina = "/menu_ppal.jsp";
+			System.out.println("Trajó datos del API");
+			String pagina = "/principal.jsp";
 			String login="/inicio.jsp";
-			for (Usuarios usuario : lista) {
-				Long usuariologin = usuario.getCedula_usuario() ;
+			for (Usuarios usuario : lista) 
+			{
+				String usuariologin = usuario.getUsuario() ;
 				String passwordlogin = usuario.getPassword();
-				if (usuariologin==(Long.parseLong(request.getParameter("txtUsuario")))&& passwordlogin.equals(request.getParameter("txtPassword"))) {
-						RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
-						dispatcher.forward(request, response);
-						}
-					}
+				
+				String Usuario = request.getParameter("txtUsuario");
+				String Pass = request.getParameter("txtPassword");
+				
+				System.out.println("Datos API: Usuario: "+ usuariologin + " Pass: " + passwordlogin);
+				
+				System.out.println("Datos Form: Usuario: "+ Usuario + " Pass: " + Pass);
+				
+				System.out.println(usuariologin.equals(Usuario.trim()) );
+				System.out.println(passwordlogin.equals(Pass.trim()) );
+				
+				if (usuariologin.equals(Usuario.trim()) && passwordlogin.equals(Pass.trim())) 
+				{
+					System.out.println("Encontró usuario");
+					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+					dispatcher.forward(request, response);
+				}
+			}
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(login);
 			dispatcher.forward(request, response);	
 			}catch(IOException e){
@@ -137,10 +152,10 @@ public class Servlet extends HttpServlet {
 		usuario.setCedula_usuario(Long.parseLong(request.getParameter("cedula")));
 		usuario.setNombre_usuario(request.getParameter("nombre"));
 		usuario.setEmail_usuario(request.getParameter("email"));
-		usuario.setCelular_usuario(request.getParameter("celular"));
+		usuario.setUsuario(request.getParameter("Usuario"));
 		usuario.setPassword(request.getParameter("password"));
-		rol.setId_rol(Long.parseLong(request.getParameter("rol_usuario")));
-		usuario.setRol(rol);
+		//rol.setId_rol(Long.parseLong(request.getParameter("rol_usuario")));
+		//usuario.setRol(rol);
 		int respuesta = 0;
 		try{
 			respuesta=TestJSON.postJSONUsuarios(usuario);
@@ -166,10 +181,10 @@ public class Servlet extends HttpServlet {
 		usuario.setCedula_usuario(Long.parseLong(request.getParameter("cedula")));
 		usuario.setNombre_usuario(request.getParameter("nombre"));
 		usuario.setEmail_usuario(request.getParameter("email"));
-		usuario.setCelular_usuario(request.getParameter("celular"));
+		usuario.setUsuario(request.getParameter("Usuario"));
 		usuario.setPassword(request.getParameter("password"));
-		rol.setId_rol(Long.parseLong(request.getParameter("rol_usuario")));
-		usuario.setRol(rol);
+		//rol.setId_rol(Long.parseLong(request.getParameter("rol_usuario")));
+		//usuario.setRol(rol);
 		int respuesta = 0;
 		try{
 			respuesta=TestJSON.putJSONUsuarios(usuario);

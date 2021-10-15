@@ -1,16 +1,17 @@
 package co.edu.unbosque.mascoticas;
 
-import co.edu.unbosque.mascoticas.Roles;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Usuarios {
+	@Id
 	private long cedula_usuario;
 	private String nombre_usuario;
 	private String email_usuario;
-	private String celular_usuario;
+	private String usuario;
 	private String password;
-	private Roles rol;
 	
-	//getters y setters
 	public long getCedula_usuario() {
 		return cedula_usuario;
 	}
@@ -29,11 +30,11 @@ public class Usuarios {
 	public void setEmail_usuario(String email_usuario) {
 		this.email_usuario = email_usuario;
 	}
-	public String getCelular_usuario() {
-		return celular_usuario;
+	public String getUsuario() {
+		return usuario;
 	}
-	public void setCelular_usuario(String celular_usuario) {
-		this.celular_usuario = celular_usuario;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 	public String getPassword() {
 		return password;
@@ -41,11 +42,5 @@ public class Usuarios {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Roles getRol() {
-		return rol;
-	}
-
-	public void setRol(Roles rol) {
-		this.rol = rol;
-	}
+	//cambio registrado para subir
 }

@@ -23,27 +23,22 @@ public class TestJSON {
 	
 	//TODO Metodos de Usuarios
 	public static ArrayList<Usuarios> parsingUsuarios(String json) throws ParseException {
+		System.out.println("Llegó al ParsingUsuarios");
 		JSONParser jsonParser = new JSONParser();
 		ArrayList<Usuarios> lista = new ArrayList<Usuarios>();
 		JSONArray usuarios = (JSONArray) jsonParser.parse(json);
 		Iterator i = usuarios.iterator();
 		while (i.hasNext()) 
 		{
-		JSONObject innerObj = (JSONObject) i.next();
-		Usuarios usuario = new Usuarios();
-		Roles rol = new Roles();
-		usuario.setCedula_usuario(Long.parseLong(innerObj.get("cedula_usuario").toString()));
-		usuario.setNombre_usuario(innerObj.get("nombre_usuario").toString());
-		usuario.setEmail_usuario(innerObj.get("email_usuario").toString());
-		usuario.setCelular_usuario(innerObj.get("celular_usuario").toString());
-		usuario.setPassword(innerObj.get("password").toString());
-		String variable = "["+innerObj.get("rol").toString()+"]";
-		JSONArray roles = (JSONArray) jsonParser.parse(variable);
-		JSONObject innerObjroles = (JSONObject) roles.get(0);
-		rol.setId_rol(Long.parseLong(innerObjroles.get("id_rol").toString()));
-		rol.setDescripcion(innerObjroles.get("descripcion").toString());
-		usuario.setRol(rol);
-		lista.add(usuario);
+			JSONObject innerObj = (JSONObject) i.next();
+			Usuarios usuario = new Usuarios();
+			usuario.setCedula_usuario(Long.parseLong(innerObj.get("cedula_usuario").toString()));
+			usuario.setNombre_usuario(innerObj.get("nombre_usuario").toString());
+			usuario.setEmail_usuario(innerObj.get("email_usuario").toString());
+			usuario.setUsuario(innerObj.get("usuario").toString());
+			usuario.setPassword(innerObj.get("password").toString());
+			System.out.println("usuario Pass: " + usuario.getPassword());
+			lista.add(usuario);
 		}
 		return lista;
 		}
@@ -61,16 +56,16 @@ public class TestJSON {
 		byte[] inp = respuesta.readAllBytes();
 		
 		String json = "";
-		for (int i = 0; i<inp.length ; i++) {
-		json += (char)inp[i];
-		//System.out.println(i);
-		//System.out.print((char)inp[i]);
+		for (int i = 0; i<inp.length ; i++) 
+		{
+			json += (char)inp[i];
+		
 		}
-		//System.out.print(json);
+		System.out.print("Json: " + json);
 		
 		ArrayList<Usuarios> lista = new ArrayList<Usuarios>();
 		lista = parsingUsuarios(json);
-		System.out.print("Pasé por aquí listar");
+		System.out.print("Salió del Parsing");
 		http.disconnect();
 		return lista;
 		}
@@ -93,9 +88,9 @@ public class TestJSON {
 		+ "\"cedula_usuario\":\""+ usuario.getCedula_usuario()
 		+"\",\"nombre_usuario\":\""+usuario.getNombre_usuario()
 		+"\",\"email_usuario\":\""+usuario.getEmail_usuario()
-		+"\",\"celular_usuario\":\""+usuario.getCelular_usuario()
+		+"\",\"Usuario\":\""+usuario.getUsuario()
 		+"\",\"password\":\""+usuario.getPassword()                       
-		+"\",\"rol\":{\"id_rol\":\""+usuario.getRol().getId_rol()+"\"}"
+		//+"\",\"rol\":{\"id_rol\":\""+usuario.getRol().getId_rol()+"\"}"
 		+ "}";
 		byte[] out = data.getBytes(StandardCharsets.UTF_8);
 		OutputStream stream = http.getOutputStream();
@@ -125,9 +120,9 @@ public class TestJSON {
 		+ "\"cedula_usuario\":\""+ usuario.getCedula_usuario()
 		+"\",\"nombre_usuario\":\""+usuario.getNombre_usuario()
 		+"\",\"email_usuario\":\""+usuario.getEmail_usuario()
-		+"\",\"celular_usuario\":\""+usuario.getCelular_usuario()
+		+"\",\"Usuario\":\""+usuario.getUsuario()
 		+"\",\"password\":\""+usuario.getPassword()                       
-		+"\",\"rol\":{\"id_rol\":\""+usuario.getRol().getId_rol()+"\"}"
+		//+"\",\"rol\":{\"id_rol\":\""+usuario.getRol().getId_rol()+"\"}"
 		+ "}";
 		System.out.print(data);
 		System.out.print("Pasé por aquí2");
