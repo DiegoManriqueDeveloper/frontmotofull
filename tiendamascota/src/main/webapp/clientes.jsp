@@ -10,6 +10,7 @@
 </head>
 <body style="background-color: black">
 <div class ="titulo">
+			<h1>HOLA PRUEBA</h1>
 	    	<h1>tienda fullmotos clientes</h1>
 	    </div>
 		<ul class="menu">
@@ -47,6 +48,7 @@
 				</tr>
 				<tr>
 					<td><label>Teléfono:</label></td>
+					
 					<td><input type="number" name="telefono_cliente"></td>
 				</tr>
 				</table>
