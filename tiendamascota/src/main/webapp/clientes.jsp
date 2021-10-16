@@ -22,6 +22,9 @@
 			<li><a href="inicio.jsp"class="dropdown-item">salir</a>
 		</ul>	
 
+
+
+
 <body style="background-color: #0000">
 	
 
