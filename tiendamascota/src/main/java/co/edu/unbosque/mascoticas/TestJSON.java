@@ -200,14 +200,17 @@ public class TestJSON {
 	//LQ: Agregado 10/16/2021
 	public static int deleteJSONClientes(Long id) throws IOException 
 	{
-		url = new URL(sitio+"clientes/eliminar/"+id);
+		url = new URL(sitio+"clientes/eliminar/" + id);
 		HttpURLConnection http;
 		http = (HttpURLConnection)url.openConnection();
 		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
-		try {
-		http.setRequestMethod("DELETE");
-		} catch (ProtocolException e) {
-		e.printStackTrace();
+		try 
+		{
+			http.setRequestMethod("DELETE");
+		} catch (ProtocolException e) 
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		http.setDoOutput(true);
 		http.setRequestProperty("Accept", "application/json");
