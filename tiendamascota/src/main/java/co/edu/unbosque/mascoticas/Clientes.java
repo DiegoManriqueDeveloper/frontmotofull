@@ -1,6 +1,7 @@
 package co.edu.unbosque.mascoticas;
 
-public class Clientes {
+public class Clientes 
+{
 	private long cedula_cliente;
 	private String nombre_cliente;
 	private String direccion_cliente;
