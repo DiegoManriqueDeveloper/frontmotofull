@@ -10,6 +10,7 @@
 </head>
 <body style="background-color: black">
 <div class ="titulo">
+			<h1>HOLA PRUEBA</h1>
 	    	<h1>tienda fullmotos clientes</h1>
 	    </div>
 		<ul class="menu">
@@ -21,9 +22,6 @@
 			<li><a href="detalles_Ventas.jsp">detalles de ventas</a>
 			<li><a href="inicio.jsp"class="dropdown-item">salir</a>
 		</ul>	
-
-
-
 
 <body style="background-color: #0000">
 	
@@ -50,6 +48,7 @@
 				</tr>
 				<tr>
 					<td><label>Teléfono:</label></td>
+					
 					<td><input type="number" name="telefono_cliente"></td>
 				</tr>
 				</table>
