@@ -137,7 +137,9 @@ public class Servlet extends HttpServlet {
 		System.out.println("Ingresó a Servlet.eliminarCliente");
 		int respuesta = 0;
 		try{
-			respuesta=TestJSON.deleteJSONClientes(Long.parseLong(request.getParameter("cedula_cliente")));
+			int Id = 0;
+			Id = Integer.parseInt(request.getParameter("cedula_cliente").toString()) ;
+			respuesta=TestJSON.deleteJSONClientes ((Id));
 			PrintWriter writer = response.getWriter();
 			if (respuesta == 200) {
 				String pagina = "/operacion_ok.jsp";

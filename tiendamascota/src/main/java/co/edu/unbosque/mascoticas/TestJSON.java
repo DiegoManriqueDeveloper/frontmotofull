@@ -198,7 +198,7 @@ public class TestJSON {
 	}
 	
 	//LQ: Agregado 10/16/2021
-	public static int deleteJSONClientes(Long id) throws IOException 
+	public static int deleteJSONClientes(int id) throws IOException 
 	{
 		url = new URL(sitio+"clientes/eliminar/" + id);
 		HttpURLConnection http;
