@@ -44,6 +44,15 @@ public class Servlet extends HttpServlet {
 		String agregar_usu = request.getParameter("AgregarUsuario");
 		String actualizar_usu = request.getParameter("ActualizarUsuario");
 		String eliminar_usu = request.getParameter("EliminarUsuario");
+		//LQ: Agregado 16/10/2021
+		String listarClientes = request.getParameter("ListarClientes");
+		String agregarCliente = request.getParameter("AgregarCliente");
+		String actualizarCliente = request.getParameter("ActualizarCliente");
+		String eliminarCliente = request.getParameter("EliminarCliente");
+		
+		//LQ
+		
+		System.out.println("Request Seleccionado: " + listarClientes);
 		//Login
 		if (login != null) {
 			try {
@@ -63,12 +72,16 @@ public class Servlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		if (agregar_usu != null) {
+		
+		if (agregar_usu != null) 
+		{
 			agregarUsuario(request, response);
 		}
+		
 		if (actualizar_usu != null) {
 			actualizarUsuario(request, response);
 		}
+		
 		if (eliminar_usu != null) {
 			eliminarUsuario(request, response);
 		}
@@ -83,14 +96,147 @@ public class Servlet extends HttpServlet {
 		if (agregar_rol != null) {
 			agregarRol(request, response);
 		}
-		if (actualizar_rol != null) {
+		if (actualizar_rol != null) 
+		{
 			actualizarRol(request, response);
 		}
 		if (eliminar_rol != null) {
 			eliminarRol(request, response);
 		}
+		if (listarClientes != null)
+		{
+			try 
+			{
+				listarClientes(request, response);
+			} 
+			catch (ParseException | ServletException e) 
+			{
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		if (agregarCliente != null)
+		{
+			agregarCliente(request, response);
+		}
+		
+		if (actualizarCliente != null) 
+		{
+			actualizarCliente(request, response);
+		}
+		
+		if (eliminarCliente != null) 
+		{
+			eliminarCliente(request, response);
+		}
+	}
+	
+	
+	public void eliminarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		System.out.println("Ingresó a Servlet.eliminarCliente");
+		int respuesta = 0;
+		try{
+			respuesta=TestJSON.deleteJSONClientes(Long.parseLong(request.getParameter("cedula_cliente")));
+			PrintWriter writer = response.getWriter();
+			if (respuesta == 200) {
+				String pagina = "/operacion_ok.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}else {
+				String pagina = "/operacion_no.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}
+			writer.close();
+		}catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 
+	//LQ: Agregado 16/10/2021
+	public void actualizarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		Clientes cliente = new Clientes();
+		System.out.println("Ingresó a Servlet.ActualizarCliente:");
+		//Los parametros son de los txt del html
+		cliente.setCedula_cliente(Long.parseLong(request.getParameter("cedula_cliente")));
+		cliente.setNombre_cliente(request.getParameter("nombre_cliente"));
+		cliente.setEmail_cliente(request.getParameter("email_cliente"));
+		cliente.setDireccion_cliente(request.getParameter("direccion_cliente"));
+		cliente.setTelefono_cliente(request.getParameter("telefono_cliente"));
+		
+		int respuesta = 0;
+		try{
+			respuesta=TestJSON.putJSONClientes(cliente);
+			PrintWriter writer = response.getWriter();
+			if (respuesta == 200) {
+				String pagina = "/operacion_ok.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}else {
+				String pagina = "/operacion_no.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}
+		}catch (IOException e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	//LQ: Agregado 16/10/2021
+	public void agregarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		
+		System.out.println("Ingreso a Servlet.agregarCliente");
+		Clientes cliente = new Clientes();
+		
+		cliente.setCedula_cliente(Long.parseLong(request.getParameter("cedula_cliente")));
+		cliente.setNombre_cliente(request.getParameter("nombre_cliente"));
+		cliente.setEmail_cliente(request.getParameter("email_cliente"));
+		cliente.setDireccion_cliente(request.getParameter("direccion_cliente"));
+		cliente.setTelefono_cliente(request.getParameter("telefono_cliente"));
+		System.out.println("Datos del cliente: " + cliente.getNombre_cliente());
+		int respuesta = 0;
+		try{
+			respuesta=TestJSON.postJSONClientes(cliente);
+			System.out.println("respuesta de testJson.postJSONClientes: " + respuesta);
+			PrintWriter writer = response.getWriter();
+			if (respuesta == 200) {
+				String pagina = "/operacion_ok.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}else {
+				String pagina = "/operacion_no.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}
+			writer.close();
+		}catch (IOException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	
+	public void listarClientes(HttpServletRequest request, HttpServletResponse response) throws ParseException, ServletException 
+	{
+		try 
+		{
+			System.out.println("Ingresó a Servlet.listarClientes");
+			ArrayList<Clientes> lista = TestJSON.getJSONClientes();
+			String pagina = "/resultado_clientes.jsp";
+			request.setAttribute("listaClientes", lista);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+			dispatcher.forward(request, response);
+		}catch(IOException e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -146,6 +292,7 @@ public class Servlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
 	public void agregarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		Usuarios usuario = new Usuarios();
 		Roles rol = new Roles();
@@ -174,6 +321,7 @@ public class Servlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
 	public void actualizarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		Usuarios usuario = new Usuarios();
 		Roles rol = new Roles();
@@ -202,6 +350,7 @@ public class Servlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
 	public void eliminarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		int respuesta = 0;
 		try{

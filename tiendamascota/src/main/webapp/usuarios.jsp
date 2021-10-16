@@ -9,9 +9,10 @@
 		<meta charset="UTF-8 ">
 		<title>tienda fullmotos Usuarios </title>
 		<link rel="STYLESHEET" type="text/css" href="css/Principal.css">
+		<link rel="STYLESHEET" type="text/css" href="css/estiloUsuario.css">
 	</head>
 	
-	<body class=>
+	<body >
 	<!-- menu -->
 	    <div class ="titulo">
 	    	<h1>tienda fullmotos Usuarios</h1>
@@ -27,7 +28,7 @@
 		</ul>	
 
 	<!-- formulario de usuarios -->
-	<div  style="background-color: #15175b" align="center">
+	<div class=container  style="background-color: #15175b" align="center">
 		<form id="formulario_ur" class="form-pagina" method="post" action="./Servlet" style="display:block">
 			<br>
 			<table class="formulario_datos">
@@ -48,13 +49,11 @@
 					<td><input type="number" name="celular"></td>
 				</tr>
 				<tr>
+				
 					<td><label>Password:</label></td>
 					<td><input type="password" name="password"></td>
 				</tr>
-				<tr>
-					<td><label>Id Rol:</label></td>
-					<td><input type="number" name="rol_usuario"></td>
-				</tr>
+	
 				</table>
 				<br> 
 				<table>

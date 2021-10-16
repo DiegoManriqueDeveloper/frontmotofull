@@ -32,10 +32,8 @@
 				<td><label>Teléfono</label></td>
 			</tr>
 			<%
-			ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("lista");
-			
+			ArrayList<Clientes> lista = (ArrayList<Clientes>) request.getAttribute("listaClientes");
 			for (Clientes cliente : lista){
-				
 			%>
 			<tr>
 				<td><%=cliente.getCedula_cliente()%></td>

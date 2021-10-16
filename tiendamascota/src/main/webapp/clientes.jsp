@@ -55,7 +55,7 @@
 				<tr>
 					<td>
 						<button class="btn_pagina btn-block" type="submit" name="AgregarCliente" style="background-color:gray">Agregar</button>
-						<button class="btn_pagina btn-block" type="submit" name="ListarClientes" style="background-color:gray">Listar</button>
+						<button class="btn_pagina btn-block" type="submit" name="ListarClientes" value="ListarClientes" style="background-color:gray">Listar</button>
 						<button class="btn_pagina btn-block" type="submit" name="ActualizarCliente" style="background-color:gray">Actualizar</button>
 						<button class="btn_pagina btn-block" type="submit" name="EliminarCliente" style="background-color:gray">Eliminar</button>
 					</td>
