@@ -58,14 +58,11 @@
 				<br> 
 				<table>
 				<tr>
-					<td>
+					<td clas=botons>
 						<button class="btn_pagina btn-block" type="submit" name="AgregarUsuario" style="background-color:gray">Agregar</button>
 						<button class="btn_pagina btn-block" type="submit" name="ListarUsuarios" style="background-color:gray">Listar</button>
 						<button class="btn_pagina btn-block" type="submit" name="ActualizarUsuario" style="background-color:gray">Actualizar</button>
 						<button class="btn_pagina btn-block" type="submit" name="EliminarUsuario" style="background-color:gray">Eliminar</button>
-						<a href="roles.jsp" >
-							<input class="btn_pagina btn-block" value="Roles" style="width:100px; background-color:gray">
-						</a>
 					</td>
 				</tr>
 			</table>
