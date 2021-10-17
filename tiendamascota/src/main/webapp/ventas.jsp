@@ -34,7 +34,7 @@
 	<span class="badge_titulo">INGRESAR VENTA</span>
 	<div align="center">
 	<form class="form-control" method="post" action="./Servlet">
-		<table>
+		<table Class =cliente>
 			<tr>
 				<td><label>Cedula del Cliente:</label></td>
 				<td><input type="text" name="cedula_cliente"></td>

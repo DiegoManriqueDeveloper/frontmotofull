@@ -36,10 +36,6 @@ public class Servlet extends HttpServlet {
 		System.out.println("Llegó a doGet");
 		String login = request.getParameter("validacionLogin");
 		System.out.println("variable : "+ login);
-		String listar_rol = request.getParameter("ListarRoles");
-		String agregar_rol = request.getParameter("AgregarRol");
-		String actualizar_rol = request.getParameter("ActualizarRol");
-		String eliminar_rol = request.getParameter("EliminarRol");
 		String listar_usu = request.getParameter("ListarUsuarios");
 		String agregar_usu = request.getParameter("AgregarUsuario");
 		String actualizar_usu = request.getParameter("ActualizarUsuario");
@@ -85,24 +81,8 @@ public class Servlet extends HttpServlet {
 		if (eliminar_usu != null) {
 			eliminarUsuario(request, response);
 		}
-		//Roles	
-		if (listar_rol != null) {
-			try {
-				listarRoles(request, response);
-			} catch (ParseException | ServletException e) {
-				e.printStackTrace();
-			}
-		}
-		if (agregar_rol != null) {
-			agregarRol(request, response);
-		}
-		if (actualizar_rol != null) 
-		{
-			actualizarRol(request, response);
-		}
-		if (eliminar_rol != null) {
-			eliminarRol(request, response);
-		}
+		// eliminacion de roles4
+		
 		if (listarClientes != null)
 		{
 			try 

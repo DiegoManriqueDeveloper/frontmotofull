@@ -21,9 +21,11 @@
 			
 					<input type="submit" value ="Ingresar" name="validacionLogin">
 			
-					<a href ="#">lost your password?</a>
+					<a href ="#">olvidaste tu contrase—a</a>
 					<a href ="#">do not have an account?</a>
 				</form>
 			</div>	
 	</body>
 </html>
+
+

@@ -93,3 +93,14 @@ body {
 .login-box a:hover {
   color: purple;
 }
+
+.ejemplo{
+	border: none;
+  outline: none;
+  height: 40px;
+  background: darkgrey;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 20px;
+	background: #ffff;
+}

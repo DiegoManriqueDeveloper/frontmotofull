@@ -5,6 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>tienda fullmotos productos</title>
+		<link rel="STYLESHEET" type="text/css" href="css/estiloUsuario.css">
 		<link rel="STYLESHEET" type="text/css" href="css/Principal.css">
 	
 </head>
@@ -26,7 +27,7 @@
 	
 
 	<div align="center">
-		<form id="formulario_ur" class="form-pagina" method="post" action="./Servlet" style="display:block">
+		<form  class = container id="formulario_ur" class="form-pagina" method="post" action="./Servlet" style="display:block">
 			<br>
 			<table class="formulario_datos">
 				<tr>
