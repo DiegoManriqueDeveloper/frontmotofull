@@ -45,6 +45,17 @@ public class Servlet extends HttpServlet {
 		String agregarCliente = request.getParameter("AgregarCliente");
 		String actualizarCliente = request.getParameter("ActualizarCliente");
 		String eliminarCliente = request.getParameter("EliminarCliente");
+		//LQ: Agregado 17/10/2021
+		String listarProveedores = request.getParameter("ListarProveedores");
+		String agregarProveedores = request.getParameter("AgregarProveedores");
+		String actualizarProveedores = request.getParameter("ActualizarProveedores");
+		String eliminarProveedores = request.getParameter("EliminarProveedores");
+		
+		String listarProductos = request.getParameter("ListarProductos");
+		String agregarProductos = request.getParameter("AgregarProductos");
+		String actualizarProductos = request.getParameter("ActualizarProductos");
+		String eliminarProductos = request.getParameter("EliminarProductos");
+		
 		
 		//LQ
 		
@@ -110,9 +121,286 @@ public class Servlet extends HttpServlet {
 		{
 			eliminarCliente(request, response);
 		}
+		
+		//Agregado 17/10/2021
+		if (agregarProveedores != null)
+		{
+			agregarProveedores(request, response);
+		}
+		if (actualizarProveedores != null) 
+		{
+			actualizarProveedores(request, response);
+		}
+		
+		if (eliminarProveedores != null) 
+		{
+			eliminarProveedores(request, response);
+		}
+		if (listarProveedores != null)
+		{
+			try 
+			{
+				listarProveedores(request, response);
+			} 
+			catch (ParseException | ServletException e) 
+			{
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		
+		if (agregarProductos != null)
+		{
+			agregarProductos(request, response);
+		}
+		if (actualizarProductos != null) 
+		{
+			actualizarProductos(request, response);
+		}
+		
+		if (eliminarProductos != null) 
+		{
+			eliminarProductos(request, response);
+		}
+		if (listarProductos != null)
+		{
+			try 
+			{
+				listarProductos(request, response);
+			} 
+			catch (ParseException | ServletException e) 
+			{
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	//LQ: Agregado 17/10/2021
+	public void agregarProveedores(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		
+		System.out.println("Ingreso a Servlet.agregarProveedores");
+		Proveedores proveedor = new Proveedores();
+		
+		proveedor.setNit_proveedor(Long.parseLong(request.getParameter("nit_proveedor")));
+		proveedor.setNombre_proveedor(request.getParameter("nombre_proveedor"));
+		proveedor.setCiudad_proveedor(request.getParameter("ciudad_proveedor"));
+		proveedor.setDireccion_proveedor(request.getParameter("direccion_proveedor"));
+		proveedor.setTelefono_proveedor(request.getParameter("telefono_proveedor"));
+		System.out.println("Datos del proveedor: " + proveedor.getNombre_proveedor());
+		int respuesta = 0;
+		try{
+			respuesta=TestJSON.postJSONProveedores(proveedor);
+			System.out.println("respuesta de testJson.postJSONClientes: " + respuesta);
+			PrintWriter writer = response.getWriter();
+			if (respuesta == 200) {
+				String pagina = "/operacion_ok.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}else {
+				String pagina = "/operacion_no.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}
+			writer.close();
+		}catch (IOException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void agregarProductos(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		
+		System.out.println("Ingreso a Servlet.agregarProductos");
+		Productos producto = new Productos();
+		Proveedores proveedor = new Proveedores();
+		
+		producto.setCodigo_producto(Long.parseLong(request.getParameter("codigo_producto")));
+		producto.setNombre_producto(request.getParameter("nombre_producto"));
+		producto.setPrecio_venta(Double.parseDouble(request.getParameter("precio_venta")));
+		producto.setPrecio_compra(Double.parseDouble(request.getParameter("precio_compra")));
+		producto.setExistencia(Double.parseDouble(request.getParameter("existencia")));
+		producto.setIvacompra(Double.parseDouble(request.getParameter("ivacompra")));
+		
+		//Agregamos el proveedor
+		proveedor.setNit_proveedor(Long.parseLong(request.getParameter("nit_proveedor")));
+		producto.setProveedores(proveedor);
+		System.out.println("Datos del producto: " + producto.getNombre_producto());
+		int respuesta = 0;
+		try{
+			respuesta=TestJSON.postJSONProductos(producto);
+			System.out.println("respuesta de testJson.postJSONProductos: " + respuesta);
+			PrintWriter writer = response.getWriter();
+			if (respuesta == 200) {
+				String pagina = "/operacion_ok.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}else {
+				String pagina = "/operacion_no.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}
+			writer.close();
+		}catch (IOException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
+		
+		
+	//LQ: Agregado 17/10/2021
+	public void actualizarProveedores(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		Proveedores proveedor = new Proveedores();
+		System.out.println("Ingresó a Servlet.ActualizarProveedor:");
+		//Los parametros son de los txt del html
+		proveedor.setNit_proveedor(Long.parseLong(request.getParameter("nit_proveedor")));
+		proveedor.setNombre_proveedor(request.getParameter("nombre_proveedor"));
+		proveedor.setCiudad_proveedor(request.getParameter("ciudad_proveedor"));
+		proveedor.setDireccion_proveedor(request.getParameter("direccion_proveedor"));
+		proveedor.setTelefono_proveedor(request.getParameter("telefono_proveedor"));
+		System.out.println("Datos del proveedor: " + proveedor.getNombre_proveedor());
+		int respuesta = 0;
+		try{
+			respuesta=TestJSON.putJSONProveedores(proveedor);
+			PrintWriter writer = response.getWriter();
+			if (respuesta == 200) {
+				String pagina = "/operacion_ok.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}else {
+				String pagina = "/operacion_no.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}
+		}catch (IOException e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	//LQ: Agregado 17/10/2021
+	public void actualizarProductos(HttpServletRequest request, HttpServletResponse response) throws ServletException 
+	{
+		Productos producto = new Productos();
+		System.out.println("Ingresó a Servlet.ActualizarProveedor:");
+		//Los parametros son de los txt del html
+		producto.setCodigo_producto(Long.parseLong(request.getParameter("codigo_producto")));
+		producto.setNombre_producto(request.getParameter("nombre_producto"));
+		producto.setPrecio_venta(Double.parseDouble(request.getParameter("precio_venta")));
+		producto.setPrecio_compra(Double.parseDouble(request.getParameter("precio_compra")));
+		producto.setExistencia(Double.parseDouble(request.getParameter("existencia")));
+		producto.setIvacompra(Double.parseDouble(request.getParameter("ivacompra")));
+		System.out.println("Datos del producto: " + producto.getNombre_producto());
+		int respuesta = 0;
+		try{
+			respuesta=TestJSON.putJSONProductos(producto);
+			PrintWriter writer = response.getWriter();
+			if (respuesta == 200) {
+				String pagina = "/operacion_ok.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}else {
+				String pagina = "/operacion_no.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}
+		}catch (IOException e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	
+	//LQ: Agregado 17/10/2021
+		public void eliminarProductos(HttpServletRequest request, HttpServletResponse response) throws ServletException 
+		{
+			System.out.println("Ingresó a Servlet.eliminarProductos");
+			int respuesta = 0;
+			try{
+				int Id = 0;
+				Id = Integer.parseInt(request.getParameter("codigo_producto").toString()) ;
+				respuesta=TestJSON.deleteJSONProductos ((Id));
+				PrintWriter writer = response.getWriter();
+				if (respuesta == 200) {
+					String pagina = "/operacion_ok.jsp";
+					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+					dispatcher.forward(request, response);
+				}else {
+					String pagina = "/operacion_no.jsp";
+					RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+					dispatcher.forward(request, response);
+				}
+				writer.close();
+			}catch (IOException e){
+				e.printStackTrace();
+			}
+		}
+	
+	//LQ: Agregado 17/10/2021
+	public void eliminarProveedores(HttpServletRequest request, HttpServletResponse response) throws ServletException 
+	{
+		System.out.println("Ingresó a Servlet.eliminarProveedor");
+		int respuesta = 0;
+		try{
+			int Id = 0;
+			Id = Integer.parseInt(request.getParameter("nit_proveedor").toString()) ;
+			respuesta=TestJSON.deleteJSONProveedores ((Id));
+			PrintWriter writer = response.getWriter();
+			if (respuesta == 200) {
+				String pagina = "/operacion_ok.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}else {
+				String pagina = "/operacion_no.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}
+			writer.close();
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+		
+	
+	//LQ: Agregado 17/10/2021
+	public void listarProductos(HttpServletRequest request, HttpServletResponse response) throws ParseException, ServletException 
+	{
+		try 
+		{
+			System.out.println("Ingresó a Servlet.listarProductos");
+			ArrayList<Productos> lista = TestJSON.getJSONProductos();
+			String pagina = "/resultado_productos.jsp";
+			request.setAttribute("listaProductos", lista);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+			dispatcher.forward(request, response);
+		}catch(IOException e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	//LQ: Agregado 17/10/2021
+	public void listarProveedores(HttpServletRequest request, HttpServletResponse response) throws ParseException, ServletException 
+	{
+		try 
+		{
+			System.out.println("Ingresó a Servlet.listarProveedores");
+			ArrayList<Proveedores> lista = TestJSON.getJSONProveedores();
+			String pagina = "/resultado_proveedores.jsp";
+			request.setAttribute("listaProveedores", lista);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+			dispatcher.forward(request, response);
+		}catch(IOException e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+		
+		
 	public void eliminarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		System.out.println("Ingresó a Servlet.eliminarCliente");
 		int respuesta = 0;
@@ -276,19 +564,20 @@ public class Servlet extends HttpServlet {
 	}
 	
 	public void agregarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		System.out.println("Ingresó a Servlet.agregarUsuario");
 		Usuarios usuario = new Usuarios();
-		Roles rol = new Roles();
+		
 		usuario.setCedula_usuario(Long.parseLong(request.getParameter("cedula")));
 		usuario.setNombre_usuario(request.getParameter("nombre"));
 		usuario.setEmail_usuario(request.getParameter("email"));
-		usuario.setUsuario(request.getParameter("Usuario"));
+		usuario.setUsuario(request.getParameter("usuario"));
 		usuario.setPassword(request.getParameter("password"));
-		//rol.setId_rol(Long.parseLong(request.getParameter("rol_usuario")));
-		//usuario.setRol(rol);
+		System.out.println("Nombre Usuario a Guardar: " + usuario.getUsuario());
 		int respuesta = 0;
 		try{
 			respuesta=TestJSON.postJSONUsuarios(usuario);
 			PrintWriter writer = response.getWriter();
+			System.out.println("Respuesta: " + respuesta);
 			if (respuesta == 200) {
 				String pagina = "/operacion_ok.jsp";
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
@@ -311,10 +600,9 @@ public class Servlet extends HttpServlet {
 		usuario.setCedula_usuario(Long.parseLong(request.getParameter("cedula")));
 		usuario.setNombre_usuario(request.getParameter("nombre"));
 		usuario.setEmail_usuario(request.getParameter("email"));
-		usuario.setUsuario(request.getParameter("Usuario"));
+		usuario.setUsuario(request.getParameter("usuario"));
 		usuario.setPassword(request.getParameter("password"));
-		//rol.setId_rol(Long.parseLong(request.getParameter("rol_usuario")));
-		//usuario.setRol(rol);
+		
 		int respuesta = 0;
 		try{
 			respuesta=TestJSON.putJSONUsuarios(usuario);

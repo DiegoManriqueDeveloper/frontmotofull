@@ -45,8 +45,8 @@
 					<td><input type="email" name="email"></td>
 				</tr>
 				<tr>
-					<td><label>Celular:</label></td>
-					<td><input type="number" name="celular"></td>
+					<td><label>Usuario:</label></td>
+					<td><input type="text" name="usuario"></td>
 				</tr>
 				<tr>
 				
