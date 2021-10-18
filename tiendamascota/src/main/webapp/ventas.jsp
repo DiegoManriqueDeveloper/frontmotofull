@@ -42,7 +42,7 @@
 				<td><label>Nombre del Cliente</label></td>
 				<td><input type="text" name="nombre_cliente"></td>
 				<td><label>Consecutivo</label></td>
-				<td><input type="text" name="cod_venta"></td>
+				<td><input type="text" name="codigo_venta"></td>
 			</tr>
 			<br>
 		</table>
@@ -55,32 +55,32 @@
 				<td><label>Vr. Total</label></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="codigo_producto"><button type="submit" name="Consultar_Producto">Consultar</td>
-				<td><input type="text" name="nombre_producto"></td>
-				<td><input type="text" name="cantidad"></td>
-				<td><input type="text" name="vr_unitario"></td>
-				<td><input type="text" name="vr_total"></td>
+				<td><input type="text" name="codigo_producto1"><button type="submit" name="Consultar_Producto">Consultar</td>
+				<td><input type="text" name="nombre_producto1"></td>
+				<td><input type="text" name="cantidad1"></td>
+				<td><input type="text" name="valor_venta1"></td>
+				<td><input type="text" name="valor_total1"></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="codigo_producto"><button type="submit" name="Consultar_Producto">Consultar</td>
-				<td><input type="text" name="nombre_producto"></td>
-				<td><input type="text" name="cantidad"></td>
-				<td><input type="text" name="vr_unitario"></td>
-				<td><input type="text" name="vr_total"></td>
+				<td><input type="text" name="codigo_producto2"><button type="submit" name="Consultar_Producto">Consultar</td>
+				<td><input type="text" name="nombre_producto2"></td>
+				<td><input type="text" name="cantidad2"></td>
+				<td><input type="text" name="valor_venta2"></td>
+				<td><input type="text" name="valor_total2"></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="codigo_producto"><button type="submit" name="Consultar_Producto">Consultar</td>
-				<td><input type="text" name="nombre_producto"></td>
-				<td><input type="text" name="cantidad"></td>
-				<td><input type="text" name="vr_unitario"></td>
-				<td><input type="text" name="vr_total"></td>
+				<td><input type="text" name="codigo_producto3"><button type="submit" name="Consultar_Producto">Consultar</td>
+				<td><input type="text" name="nombre_producto3"></td>
+				<td><input type="text" name="cantidad3"></td>
+				<td><input type="text" name="valor_venta3"></td>
+				<td><input type="text" name="valor_total3"></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="codigo_producto"><button type="submit" name="Consultar_Producto">Consultar</td>
-				<td><input type="text" name="nombre_producto"></td>
-				<td><input type="text" name="cantidad"></td>
-				<td><input type="text" name="vr_unitario"></td>
-				<td><input type="text" name="vr_total"></td>
+				<td><input type="text" name="codigo_producto4"><button type="submit" name="Consultar_Producto">Consultar</td>
+				<td><input type="text" name="nombre_producto4"></td>
+				<td><input type="text" name="cantidad4"></td>
+				<td><input type="text" name="valor_venta4"></td>
+				<td><input type="text" name="valor_total4"></td>
 			</tr>
 			
 			<tr>

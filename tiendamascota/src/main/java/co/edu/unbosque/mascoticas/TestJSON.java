@@ -255,6 +255,110 @@ public class TestJSON
 	}
 
 	
+	//LQ: Agregado 18/10/2021
+	public static int postJSONVentas(Ventas ventas) throws IOException 
+	{
+		System.out.println("Ingresó a TestJSON.postJSONVentas");
+		
+		url = new URL(sitio+"ventas/guardar");
+		HttpURLConnection http;
+		http = (HttpURLConnection)url.openConnection();
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		try {
+		http.setRequestMethod("POST");
+		} catch (ProtocolException e) {
+		e.printStackTrace();
+		}
+		http.setDoOutput(true);
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		http.setRequestProperty("Content-Type", "application/json");
+		
+		System.out.println("Antes de Cedula del Cliente: ");
+		Long cedula_cliente = ventas.getCliente().getCedula_cliente();
+		System.out.println("Cedula del Cliente: " + cedula_cliente);
+		
+		System.out.println("Antes de Cedula del Usuario: ");
+		Long cedula_usuario = ventas.getUsuarios().getCedula_usuario();
+		System.out.println("Cedula del usuario: " + cedula_usuario);
+		
+		String data = "{"
+		+ "\"codigo_venta\":\""+ ventas.getCodigo_venta()
+		+"\",\"fecha_creacion\":\""+ ventas.getFecha_creacion()
+		+"\",\"ivaventa\":\""+ ventas.getIvaventa()
+		+"\",\"total_venta\":\""+ ventas.getTotal_venta()
+		+"\",\"valor_venta\":\""+ ventas.getValor_venta()
+		 
+		//Agregamos el Cliente
+		+"\",\"cliente\":{\"cedula_cliente\":\""+ cedula_cliente + "\"}"
+		//Agregamos el usuario
+		+",\"usuarios\":{\"cedula_usuario\":\""+ cedula_usuario + "\""
+		+ "}}";
+		
+		System.out.println("data a enviar de venta: " + data);
+		
+		byte[] out = data.getBytes(StandardCharsets.UTF_8);
+		OutputStream stream = http.getOutputStream();
+		stream.write(out);
+		int respuesta = http.getResponseCode();
+		http.disconnect();
+		System.out.print("Respuesta de TestJson.postJSONVentas: " + respuesta);
+		return respuesta;
+	}
+	
+	
+	//LQ: Agregado 18/10/2021
+	public static int postJSONDetalleVentas(DetalleVentas Detalleventas) throws IOException 
+	{
+		System.out.println("Ingresó a TestJSON.postJSONDetalleVentas");
+		
+		url = new URL(sitio+"detalleventas/guardar");
+		HttpURLConnection http;
+		http = (HttpURLConnection)url.openConnection();
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		try {
+		http.setRequestMethod("POST");
+		} catch (ProtocolException e) {
+		e.printStackTrace();
+		}
+		http.setDoOutput(true);
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		http.setRequestProperty("Content-Type", "application/json");
+		
+		System.out.println("Antes de codigo del Producto: ");
+		Long codigo_producto = Detalleventas.getProductos().getCodigo_producto();
+		System.out.println("codigo del producto: " + codigo_producto);
+		
+		System.out.println("Antes de codigo de la venta: ");
+		Long codigo_venta = Detalleventas.getVentas().getCodigo_venta();
+		System.out.println("Codigo Venta: " + codigo_venta);
+		
+		String data = "{"
+		+ "\"cantidad_producto\":\""+ Detalleventas.getCantidad_producto()
+		+"\",\"valor_total\":\""+ Detalleventas.getValor_total()
+		+"\",\"valor_venta\":\""+ Detalleventas.getValor_venta()
+		+"\",\"valoriva\":\""+ Detalleventas.getValoriva()
+		 
+		//Agregamos el Código del Producto
+		+"\",\"productos\":{\"codigo_producto\":\""+ codigo_producto + "\"}"
+		//Agregamos el codigo de la venta
+		+",\"ventas\":{\"codigo_venta\":\""+ codigo_venta + "\""
+		+ "}}";
+		
+		System.out.println("data a enviar de DetalleVentas: " + data);
+		
+		byte[] out = data.getBytes(StandardCharsets.UTF_8);
+		OutputStream stream = http.getOutputStream();
+		stream.write(out);
+		int respuesta = http.getResponseCode();
+		http.disconnect();
+		System.out.println("Respuesta de TestJson.postJSONDetalleVentas: " + respuesta);
+		return respuesta;
+	}
+	
+	
+	
 	//LQ: Agregado 17/10/2021
 	public static int postJSONProductos(Productos producto) throws IOException 
 	{

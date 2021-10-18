@@ -1,5 +1,6 @@
 package co.edu.unbosque.mascoticas;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.parser.ParseException;
+
+import com.opencsv.exceptions.CsvValidationException;
 
 
 /**
@@ -55,6 +58,8 @@ public class Servlet extends HttpServlet {
 		String agregarProductos = request.getParameter("AgregarProductos");
 		String actualizarProductos = request.getParameter("ActualizarProductos");
 		String eliminarProductos = request.getParameter("EliminarProductos");
+		
+		String crearVenta = request.getParameter("CrearVenta");
 		
 		
 		//LQ
@@ -175,7 +180,133 @@ public class Servlet extends HttpServlet {
 				System.out.println(e.getMessage());
 			}
 		}
+		
+		if(crearVenta != null)
+		{
+			crearVenta(request, response);
+		}
+		
+		
 	}
+	
+	//LQ: Agregado 18/10/2021
+	public void crearVenta(HttpServletRequest request, HttpServletResponse response) throws ServletException 
+	{
+		
+		System.out.println("Ingreso a Servlet.crearVenta");
+		Ventas ventas = new Ventas();
+		DetalleVentas detalleVentas1 = new DetalleVentas();
+		DetalleVentas detalleVentas2 = new DetalleVentas();
+		DetalleVentas detalleVentas3 = new DetalleVentas();
+		DetalleVentas detalleVentas4 = new DetalleVentas();
+		
+		Clientes cliente = new Clientes();
+		Usuarios usuario = new Usuarios();
+		
+		//Solo es necesario cargar la llavel del Cliente
+		cliente.setCedula_cliente(Long.parseLong(request.getParameter("cedula_cliente")));
+		ventas.setCliente(cliente);
+		//END CLIENTE
+		//Solo es necesario cargar la llave del Usuario, TODO: Hay que traerla de ???
+		usuario.setCedula_usuario(74752863);// TODO: Esta quemada la llave
+		ventas.setUsuarios(usuario);
+		
+		
+		ventas.setCodigo_venta(Long.parseLong(request.getParameter("codigo_venta")));
+		ventas.setFecha_creacion("18/10/2021");
+		ventas.setIvaventa(19);
+		
+		ventas.setTotal_venta(100100);
+		ventas.setValor_venta(100101);
+				
+		System.out.println("Datos de Venta: " + ventas.getCodigo_venta());
+		  
+		
+		//Cargamos el producto 1
+		detalleVentas1.setCantidad_producto(Integer.parseInt(request.getParameter("cantidad1")));
+		//detalleVentas1.setCodigo_detalle_venta(serialVersionUID); //TODO: no cargar volver autoincremental
+		Productos producto1 = new Productos();
+		producto1.setCodigo_producto(Integer.parseInt(request.getParameter("codigo_producto1")));
+		detalleVentas1.setProductos(producto1);
+		detalleVentas1.setValor_total(Double.parseDouble(request.getParameter("valor_total1")));
+		detalleVentas1.setValor_venta(Double.parseDouble(request.getParameter("valor_venta1")));
+		detalleVentas1.setValoriva(19);
+		detalleVentas1.setVentas(ventas);
+		
+		//Cargamos el producto 2
+		detalleVentas2.setCantidad_producto(Integer.parseInt(request.getParameter("cantidad2")));
+		//detalleVentas2.setCodigo_detalle_venta(serialVersionUID); //TODO: no cargar volver autoincremental
+		Productos producto2 = new Productos();
+		producto2.setCodigo_producto(Integer.parseInt(request.getParameter("codigo_producto2")));
+		detalleVentas2.setProductos(producto2);
+		detalleVentas2.setValor_total(Double.parseDouble(request.getParameter("valor_total2")));
+		detalleVentas2.setValor_venta(Double.parseDouble(request.getParameter("valor_venta2")));
+		detalleVentas2.setValoriva(19);
+		detalleVentas2.setVentas(ventas);
+		
+		//Cargamos el producto 3
+		detalleVentas3.setCantidad_producto(Integer.parseInt(request.getParameter("cantidad3")));
+		//detalleVentas3.setCodigo_detalle_venta(serialVersionUID); //TODO: no cargar volver autoincremental
+		Productos producto3 = new Productos();
+		producto3.setCodigo_producto(Integer.parseInt(request.getParameter("codigo_producto3")));
+		detalleVentas3.setProductos(producto2);
+		detalleVentas3.setValor_total(Double.parseDouble(request.getParameter("valor_total3")));
+		detalleVentas3.setValor_venta(Double.parseDouble(request.getParameter("valor_venta3")));
+		detalleVentas3.setValoriva(19);
+		detalleVentas3.setVentas(ventas);
+
+
+		//Cargamos el producto 3
+		detalleVentas4.setCantidad_producto(Integer.parseInt(request.getParameter("cantidad4")));
+		//detalleVentas4.setCodigo_detalle_venta(serialVersionUID); //TODO: no cargar volver autoincremental
+		Productos producto4 = new Productos();
+		producto4.setCodigo_producto(Integer.parseInt(request.getParameter("codigo_producto4")));
+		detalleVentas4.setProductos(producto2);
+		detalleVentas4.setValor_total(Double.parseDouble(request.getParameter("valor_total4")));
+		detalleVentas4.setValor_venta(Double.parseDouble(request.getParameter("valor_venta4")));
+		detalleVentas4.setValoriva(19);
+		detalleVentas4.setVentas(ventas);
+
+		System.out.println("Se cargaron al objeto los detalles de las ventas");
+		
+		
+		int respuesta = 0;
+		try{
+			//Mandamos a guardar las ventas, si todo sale bien se debe mandar a guardar el detalle de la venta
+			respuesta=TestJSON.postJSONVentas(ventas);
+			System.out.println("respuesta de testJson.postJSONClientes: " + respuesta);
+			PrintWriter writer = response.getWriter();
+			if (respuesta == 200) {
+				
+				//Si llegó hasta aquí la venta se debe enviar los detalles:
+				int respuestaDetalle =0;
+				respuestaDetalle = TestJSON.postJSONDetalleVentas(detalleVentas1);
+				System.out.println("Guardar Detalle1");
+				respuestaDetalle = TestJSON.postJSONDetalleVentas(detalleVentas2);
+				System.out.println("Guardar Detalle2");
+				respuestaDetalle = TestJSON.postJSONDetalleVentas(detalleVentas3);
+				System.out.println("Guardar Detalle3");
+				respuestaDetalle = TestJSON.postJSONDetalleVentas(detalleVentas4);
+				System.out.println("Guardar Detalle4");
+				
+				String pagina = "/operacion_ok.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}else {
+				String pagina = "/operacion_no.jsp";
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagina);
+				dispatcher.forward(request, response);
+			}
+			writer.close();
+		}catch (IOException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	
+	
 	
 	//LQ: Agregado 17/10/2021
 	public void agregarProveedores(HttpServletRequest request, HttpServletResponse response) throws ServletException {
