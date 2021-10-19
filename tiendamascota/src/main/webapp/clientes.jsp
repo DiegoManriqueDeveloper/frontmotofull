@@ -10,7 +10,11 @@
 </head>
 <body style="background-color: white">
 <div class ="titulo">
+<<<<<<< HEAD
 			<h1>Tienda Fullmotos</h1>
+=======
+	    	<h1>tienda fullmotos clientes</h1>
+>>>>>>> branch 'master' of https://github.com/DiegoManriqueDeveloper/frontmotofull.git
 	    </div>
 		<ul class="menu">
 			<li><a href="usuarios.jsp">Usuarios</a>

@@ -5,6 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>tienda fullmotos productos</title>
+		<link rel="STYLESHEET" type="text/css" href="css/estiloUsuario.css">
 		<link rel="STYLESHEET" type="text/css" href="css/Principal.css">
 	
 </head>
@@ -26,7 +27,7 @@
 	
 
 	<div align="center">
-		<form id="formulario_ur" class="form-pagina" method="post" action="./Servlet" style="display:block">
+		<form  class = container id="formulario_ur" class="form-pagina" method="post" action="./Servlet" style="display:block">
 			<br>
 			<table class="formulario_datos">
 				<tr>
@@ -43,21 +44,29 @@
 				</tr>
 				<tr>
 					<td><label>precio_venta:</label></td>
-					<td><input type="email" name="precio_venta"></td>
+					<td><input type="number" name="precio_venta"></td>
 				</tr>
 				<tr>
 					<td><label>existencia:</label></td>
 					<td><input type="number" name="existencia"></td>
+				</tr>
+				<tr>
+					<td><label>Iva Compra:</label></td>
+					<td><input type="number" name="ivacompra"></td>
+				</tr>
+				<tr>
+					<td><label>Nit Proveedor:</label></td>
+					<td><input type="number" name="nit_proveedor"></td>
 				</tr>
 				</table>
 				<br> 
 				<table>
 				<tr>
 					<td>
-						<button class="btn_pagina btn-block" type="submit" name="AgregarProveedores" style="background-color:gray">Agregar</button>
-						<button class="btn_pagina btn-block" type="submit" name="ListarProveedores" style="background-color:gray">Listar</button>
-						<button class="btn_pagina btn-block" type="submit" name="ActualizarProveedores" style="background-color:gray">Actualizar</button>
-						<button class="btn_pagina btn-block" type="submit" name="EliminarProveedores" style="background-color:gray">Eliminar</button>
+						<button class="btn_pagina btn-block" type="submit" name="AgregarProductos" style="background-color:gray">Agregar</button>
+						<button class="btn_pagina btn-block" type="submit" name="ListarProductos" style="background-color:gray">Listar</button>
+						<button class="btn_pagina btn-block" type="submit" name="ActualizarProductos" style="background-color:gray">Actualizar</button>
+						<button class="btn_pagina btn-block" type="submit" name="EliminarProductos" style="background-color:gray">Eliminar</button>
 					</td>
 				</tr>
 			</table>

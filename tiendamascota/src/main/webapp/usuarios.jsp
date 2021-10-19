@@ -47,8 +47,8 @@
 					<td><input type="email" name="email"></td>
 				</tr>
 				<tr>
-					<td><label>Celular:</label></td>
-					<td><input type="number" name="celular"></td>
+					<td><label>Usuario:</label></td>
+					<td><input type="text" name="usuario"></td>
 				</tr>
 				<tr>
 				
@@ -60,12 +60,23 @@
 				<br> 
 				<table>
 				<tr>
+<<<<<<< HEAD
 					<td button>
 						<button class="btn_pagina btn-block" type="submit" name="AgregarUsuario" style="background-color:gray">Agregar</button>
 						<button class="btn_pagina btn-block" type="submit" name="ListarUsuarios" style="background-color:gray">Listar</button>
 						<button class="btn_pagina btn-block" type="submit" name="ActualizarUsuario" style="background-color:gray">Actualizar</button>
 						<button class="btn_pagina btn-block" type="submit" name="EliminarUsuario" style="background-color:gray">Eliminar</button>
 					<td>
+=======
+					<td class=botons>
+					<ul class="return">
+						<li><button class="btn_pagina btn-block" type="submit" name="AgregarUsuario" style="background-color:gray">Agregar</button>
+						<li><button class="btn_pagina btn-block" type="submit" name="ListarUsuarios" style="background-color:gray">Listar</button>
+						<li><button class="btn_pagina btn-block" type="submit" name="ActualizarUsuario" style="background-color:gray">Actualizar</button>
+						<li><button class="btn_pagina btn-block" type="submit" name="EliminarUsuario" style="background-color:gray">Eliminar</button>
+						</ul>
+					</td>
+>>>>>>> branch 'master' of https://github.com/DiegoManriqueDeveloper/frontmotofull.git
 				</tr>
 			</table>
 		</form>

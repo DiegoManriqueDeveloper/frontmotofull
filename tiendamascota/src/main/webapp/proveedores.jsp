@@ -43,7 +43,7 @@
 				</tr>
 				<tr>
 					<td><label>ciudad:</label></td>
-					<td><input type="email" name="ciudad_proveedor"></td>
+					<td><input type="text" name="ciudad_proveedor"></td>
 				</tr>
 				<tr>
 					<td><label>Teléfono:</label></td>

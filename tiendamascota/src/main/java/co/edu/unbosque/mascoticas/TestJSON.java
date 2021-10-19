@@ -17,10 +17,76 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-public class TestJSON {
+public class TestJSON 
+{
 	private static URL url;
 	private static String sitio = "http://localhost:5000/";
 	private static String usuarioAPI = "usuarioAPI:123";
+	
+	
+	//LQ: Agregado 17/10/2021
+	public static ArrayList<Productos> parsingProductos(String json) throws ParseException 
+	{
+		System.out.println("Llegó al parsingProductos");
+		JSONParser jsonParser = new JSONParser();
+		JSONArray productos = (JSONArray) jsonParser.parse(json);
+		
+		ArrayList<Productos> lista = new ArrayList<Productos>();
+		Iterator i = productos.iterator();
+		while (i.hasNext()) 
+		{
+			JSONObject innerObj = (JSONObject) i.next();
+			Productos producto = new Productos();
+			Proveedores proveedor = new Proveedores();
+			
+			producto.setCodigo_producto(Long.parseLong(innerObj.get("codigo_producto").toString()));
+			producto.setNombre_producto(innerObj.get("nombre_producto").toString());
+			producto.setPrecio_compra(Double.parseDouble(innerObj.get("precio_compra").toString()));
+			producto.setPrecio_venta(Double.parseDouble(innerObj.get("precio_venta").toString()));
+			producto.setExistencia(Double.parseDouble(innerObj.get("existencia").toString()));
+			producto.setIvacompra(Double.parseDouble(innerObj.get("ivacompra").toString()));
+			
+			//Para sacar los proveedores del Json de Productos
+			String JsonProveedor = "[" +innerObj.get("proveedores") + "]";
+			System.out.println("El Json de Proveedor: " + JsonProveedor);
+			
+			JSONParser jsonParserProveedores = new JSONParser();
+			JSONArray Aproveedor = (JSONArray) jsonParserProveedores.parse(JsonProveedor);
+			JSONObject innerObjPro = (JSONObject) Aproveedor.get(0);
+			proveedor.setNit_proveedor(Long.parseLong(innerObjPro.get("nit_proveedor").toString()));
+			System.out.println("El Nit Proveedor: " + proveedor.getNit_proveedor());
+			
+			producto.setProveedores(proveedor);
+			
+			System.out.println("proveedor Data: " + producto.getNombre_producto());
+			lista.add(producto);
+		}
+		return lista;
+	}
+	
+	
+	//LQ: Agregado 17/10/2021
+	public static ArrayList<Proveedores> parsingProveedores(String json) throws ParseException 
+	{
+		System.out.println("Llegó al parsingProveedores");
+		JSONParser jsonParser = new JSONParser();
+		ArrayList<Proveedores> lista = new ArrayList<Proveedores>();
+		JSONArray proveedores = (JSONArray) jsonParser.parse(json);
+		Iterator i = proveedores.iterator();
+		while (i.hasNext()) 
+		{
+			JSONObject innerObj = (JSONObject) i.next();
+			Proveedores proveedor = new Proveedores();
+			proveedor.setNit_proveedor(Long.parseLong(innerObj.get("nit_proveedor").toString()));
+			proveedor.setNombre_proveedor(innerObj.get("nombre_proveedor").toString());
+			proveedor.setCiudad_proveedor(innerObj.get("ciudad_proveedor").toString());
+			proveedor.setTelefono_proveedor(innerObj.get("telefono_proveedor").toString());
+			proveedor.setDireccion_proveedor(innerObj.get("direccion_proveedor").toString());
+			System.out.println("proveedor Data: " + proveedor.getNombre_proveedor());
+			lista.add(proveedor);
+		}
+		return lista;
+	}
 	
 	
 	//TODO Metodos de Usuarios
@@ -68,6 +134,68 @@ public class TestJSON {
 		}
 		return lista;
 	}
+	
+	
+	//LQ Agregado 17/10/2021
+	public static ArrayList<Productos> getJSONProductos() throws IOException, ParseException
+	{
+		System.out.println("Ingresó a getJSONProductos");
+		url = new URL(sitio+"productos/listar");
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		HttpURLConnection http = (HttpURLConnection)url.openConnection();
+		http.setRequestMethod("GET");
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		InputStream respuesta = http.getInputStream();
+		System.out.println("Respuesta: "+ respuesta);
+		byte[] inp = respuesta.readAllBytes();
+		
+		String json = "";
+		for (int i = 0; i<inp.length ; i++) 
+		{
+			json += (char)inp[i];
+		
+		}
+		System.out.print("Json: " + json);
+		
+		ArrayList<Productos> lista = new ArrayList<Productos>();
+		lista = parsingProductos(json);
+		System.out.println("Salió del Parsing Productos");
+		
+		
+		http.disconnect();
+		return lista;
+	}
+	
+	//LQ Agregado 17/10/2021
+	public static ArrayList<Proveedores> getJSONProveedores() throws IOException, ParseException
+	{
+		System.out.println("Ingresó a getJSONProveedores");
+		url = new URL(sitio+"proveedores/listar");
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		HttpURLConnection http = (HttpURLConnection)url.openConnection();
+		http.setRequestMethod("GET");
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		InputStream respuesta = http.getInputStream();
+		System.out.print("Respuesta: "+ respuesta);
+		byte[] inp = respuesta.readAllBytes();
+		
+		String json = "";
+		for (int i = 0; i<inp.length ; i++) 
+		{
+			json += (char)inp[i];
+		
+		}
+		System.out.print("Json: " + json);
+		
+		ArrayList<Proveedores> lista = new ArrayList<Proveedores>();
+		lista = parsingProveedores(json);
+		System.out.print("Salió del Parsing Proveedores");
+		http.disconnect();
+		return lista;
+		}
+	
 	
 	public static ArrayList<Usuarios> getJSONUsuarios() throws IOException, ParseException
 	{
@@ -125,9 +253,195 @@ public class TestJSON {
 		http.disconnect();
 		return lista;
 	}
+
+	
+	//LQ: Agregado 18/10/2021
+	public static int postJSONVentas(Ventas ventas) throws IOException 
+	{
+		System.out.println("Ingresó a TestJSON.postJSONVentas");
+		
+		url = new URL(sitio+"ventas/guardar");
+		HttpURLConnection http;
+		http = (HttpURLConnection)url.openConnection();
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		try {
+		http.setRequestMethod("POST");
+		} catch (ProtocolException e) {
+		e.printStackTrace();
+		}
+		http.setDoOutput(true);
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		http.setRequestProperty("Content-Type", "application/json");
+		
+		System.out.println("Antes de Cedula del Cliente: ");
+		Long cedula_cliente = ventas.getCliente().getCedula_cliente();
+		System.out.println("Cedula del Cliente: " + cedula_cliente);
+		
+		System.out.println("Antes de Cedula del Usuario: ");
+		Long cedula_usuario = ventas.getUsuarios().getCedula_usuario();
+		System.out.println("Cedula del usuario: " + cedula_usuario);
+		
+		String data = "{"
+		+ "\"codigo_venta\":\""+ ventas.getCodigo_venta()
+		+"\",\"fecha_creacion\":\""+ ventas.getFecha_creacion()
+		+"\",\"ivaventa\":\""+ ventas.getIvaventa()
+		+"\",\"total_venta\":\""+ ventas.getTotal_venta()
+		+"\",\"valor_venta\":\""+ ventas.getValor_venta()
+		 
+		//Agregamos el Cliente
+		+"\",\"cliente\":{\"cedula_cliente\":\""+ cedula_cliente + "\"}"
+		//Agregamos el usuario
+		+",\"usuarios\":{\"cedula_usuario\":\""+ cedula_usuario + "\""
+		+ "}}";
+		
+		System.out.println("data a enviar de venta: " + data);
+		
+		byte[] out = data.getBytes(StandardCharsets.UTF_8);
+		OutputStream stream = http.getOutputStream();
+		stream.write(out);
+		int respuesta = http.getResponseCode();
+		http.disconnect();
+		System.out.print("Respuesta de TestJson.postJSONVentas: " + respuesta);
+		return respuesta;
+	}
+	
+	
+	//LQ: Agregado 18/10/2021
+	public static int postJSONDetalleVentas(DetalleVentas Detalleventas) throws IOException 
+	{
+		System.out.println("Ingresó a TestJSON.postJSONDetalleVentas");
+		
+		url = new URL(sitio+"detalleventas/guardar");
+		HttpURLConnection http;
+		http = (HttpURLConnection)url.openConnection();
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		try {
+		http.setRequestMethod("POST");
+		} catch (ProtocolException e) {
+		e.printStackTrace();
+		}
+		http.setDoOutput(true);
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		http.setRequestProperty("Content-Type", "application/json");
+		
+		System.out.println("Antes de codigo del Producto: ");
+		Long codigo_producto = Detalleventas.getProductos().getCodigo_producto();
+		System.out.println("codigo del producto: " + codigo_producto);
+		
+		System.out.println("Antes de codigo de la venta: ");
+		Long codigo_venta = Detalleventas.getVentas().getCodigo_venta();
+		System.out.println("Codigo Venta: " + codigo_venta);
+		
+		String data = "{"
+		+ "\"cantidad_producto\":\""+ Detalleventas.getCantidad_producto()
+		+"\",\"valor_total\":\""+ Detalleventas.getValor_total()
+		+"\",\"valor_venta\":\""+ Detalleventas.getValor_venta()
+		+"\",\"valoriva\":\""+ Detalleventas.getValoriva()
+		 
+		//Agregamos el Código del Producto
+		+"\",\"productos\":{\"codigo_producto\":\""+ codigo_producto + "\"}"
+		//Agregamos el codigo de la venta
+		+",\"ventas\":{\"codigo_venta\":\""+ codigo_venta + "\""
+		+ "}}";
+		
+		System.out.println("data a enviar de DetalleVentas: " + data);
+		
+		byte[] out = data.getBytes(StandardCharsets.UTF_8);
+		OutputStream stream = http.getOutputStream();
+		stream.write(out);
+		int respuesta = http.getResponseCode();
+		http.disconnect();
+		System.out.println("Respuesta de TestJson.postJSONDetalleVentas: " + respuesta);
+		return respuesta;
+	}
+	
+	
+	
+	//LQ: Agregado 17/10/2021
+	public static int postJSONProductos(Productos producto) throws IOException 
+	{
+		System.out.println("Ingresó a TestJSON.postJSONProductos");
+		
+		url = new URL(sitio+"productos/guardar");
+		HttpURLConnection http;
+		http = (HttpURLConnection)url.openConnection();
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		try {
+		http.setRequestMethod("POST");
+		} catch (ProtocolException e) {
+		e.printStackTrace();
+		}
+		http.setDoOutput(true);
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		http.setRequestProperty("Content-Type", "application/json");
+		
+		System.out.println("Antes de Nit del Proveedor: ");
+		Long NitProveedor = producto.getProveedores().getNit_proveedor();
+		System.out.println("Nit del Proveedor: " + NitProveedor);
+		
+		String data = "{"
+		+ "\"codigo_producto\":\""+ producto.getCodigo_producto()
+		+"\",\"nombre_producto\":\""+ producto.getNombre_producto()
+		+"\",\"precio_venta\":\""+ producto.getPrecio_venta()
+		+"\",\"precio_compra\":\""+ producto.getPrecio_compra()
+		+"\",\"existencia\":\""+ producto.getExistencia()
+		+"\",\"ivacompra\":\""+ producto.getIvacompra() 
+		//Agregamos el proveedor
+		+"\",\"proveedores\":{\"nit_proveedor\":\""+ producto.getProveedores().getNit_proveedor() + "\""
+		+ "}}";
+		System.out.println("data a enviar de producto: " + data);
+		
+		byte[] out = data.getBytes(StandardCharsets.UTF_8);
+		OutputStream stream = http.getOutputStream();
+		stream.write(out);
+		int respuesta = http.getResponseCode();
+		http.disconnect();
+		System.out.print("Respuesta de TestJson.postJSONProducto: " + respuesta);
+		return respuesta;
+	}
+	
+	//LQ: Agregado 17/10/2021
+	public static int postJSONProveedores(Proveedores proveedor) throws IOException 
+	{
+		System.out.println("Ingresó a TestJSON.postJSONProveedores");
+		
+		url = new URL(sitio+"proveedores/guardar");
+		HttpURLConnection http;
+		http = (HttpURLConnection)url.openConnection();
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		try {
+		http.setRequestMethod("POST");
+		} catch (ProtocolException e) {
+		e.printStackTrace();
+		}
+		http.setDoOutput(true);
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		http.setRequestProperty("Content-Type", "application/json");
+		String data = "{"
+		+ "\"nit_proveedor\":\""+ proveedor.getNit_proveedor()
+		+"\",\"nombre_proveedor\":\""+ proveedor.getNombre_proveedor()
+		+"\",\"ciudad_proveedor\":\""+ proveedor.getCiudad_proveedor()
+		+"\",\"direccion_proveedor\":\""+ proveedor.getDireccion_proveedor()
+		+"\",\"telefono_proveedor\":\""+ proveedor.getTelefono_proveedor() + "\""                      
+		+ "}";
+		System.out.println("data a enviar de proveedor: " + data);
+		
+		byte[] out = data.getBytes(StandardCharsets.UTF_8);
+		OutputStream stream = http.getOutputStream();
+		stream.write(out);
+		int respuesta = http.getResponseCode();
+		http.disconnect();
+		System.out.print("Respuesta de TestJson.postJSONproveedores: " + respuesta);
+		return respuesta;
+	}
 	
 	//LQ: Agregado 16/10/2021
-	public static int postJSONClientes(Clientes cliente) throws IOException {
+	public static int postJSONClientes(Clientes cliente) throws IOException 
+	{
 		System.out.println("Ingresó a TestJSON.postJSONClientes");
 		
 		url = new URL(sitio+"clientes/guardar");
@@ -160,9 +474,84 @@ public class TestJSON {
 		System.out.print("Respuesta de TestJson.postJSONClientes: " + respuesta);
 		return respuesta;
 	}
+
+	//LQ: Agregado 17/10/2021
+	public static int putJSONProductos(Productos producto) throws IOException 
+	{
+		System.out.println("Ingresó a TestJson.putJSONProductos");
+		url = new URL(sitio+"productos/actualizar");
+		HttpURLConnection http;
+		http = (HttpURLConnection)url.openConnection();
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		try {
+		http.setRequestMethod("PUT");
+		} catch (ProtocolException e) {
+		e.printStackTrace();
+		}
+		http.setDoOutput(true);
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		http.setRequestProperty("Content-Type", "application/json");
+		
+		String data = "{"
+				+ "\"codigo_producto\":\""+ producto.getCodigo_producto()
+				+"\",\"nombre_producto\":\""+ producto.getNombre_producto()
+				+"\",\"precio_venta\":\""+ producto.getPrecio_venta()
+				+"\",\"precio_compra\":\""+ producto.getPrecio_compra()
+				+"\",\"existencia\":\""+ producto.getExistencia()
+				+"\",\"ivacompra\":\""+ producto.getIvacompra() 
+				//Agregamos el proveedor
+				+"\",\"proveedores\":{\"nit_proveedor\":\""+ producto.getProveedores().getNit_proveedor() + "\""
+				+ "}}";
+		System.out.println("data a enviar de producto: " + data);
+		
+		byte[] out = data.getBytes(StandardCharsets.UTF_8);
+		OutputStream stream = http.getOutputStream();
+		stream.write(out);
+		int respuesta = http.getResponseCode();
+		http.disconnect();
+		return respuesta;
+	}
+
+	
+	//LQ: Agregado 17/10/2021
+	public static int putJSONProveedores(Proveedores proveedor) throws IOException 
+	{
+		System.out.println("Ingresó a TestJson.putJSONProveedores");
+		url = new URL(sitio+"proveedores/actualizar");
+		HttpURLConnection http;
+		http = (HttpURLConnection)url.openConnection();
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		try {
+		http.setRequestMethod("PUT");
+		} catch (ProtocolException e) {
+		e.printStackTrace();
+		}
+		http.setDoOutput(true);
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		http.setRequestProperty("Content-Type", "application/json");
+		
+		String data = "{"
+				+ "\"nit_proveedor\":\""+ proveedor.getNit_proveedor()
+				+"\",\"nombre_proveedor\":\""+ proveedor.getNombre_proveedor()
+				+"\",\"ciudad_proveedor\":\""+ proveedor.getCiudad_proveedor()
+				+"\",\"direccion_proveedor\":\""+ proveedor.getDireccion_proveedor()
+				+"\",\"telefono_proveedor\":\""+ proveedor.getTelefono_proveedor() + "\""                      
+				+ "}";
+		System.out.println("data a enviar de proveedor: " + data);
+		
+		byte[] out = data.getBytes(StandardCharsets.UTF_8);
+		OutputStream stream = http.getOutputStream();
+		stream.write(out);
+		int respuesta = http.getResponseCode();
+		http.disconnect();
+		return respuesta;
+	}
 	
 	//LQ: Agregado 16/10/2021
-	public static int putJSONClientes(Clientes cliente) throws IOException {
+	public static int putJSONClientes(Clientes cliente) throws IOException 
+	{
 		System.out.println("Ingresó a TestJson.putJSONClientes");
 		url = new URL(sitio+"clientes/actualizar");
 		HttpURLConnection http;
@@ -192,6 +581,56 @@ public class TestJSON {
 		byte[] out = data.getBytes(StandardCharsets.UTF_8);
 		OutputStream stream = http.getOutputStream();
 		stream.write(out);
+		int respuesta = http.getResponseCode();
+		http.disconnect();
+		return respuesta;
+	}
+
+	//LQ: Agregado 17/10/2021
+	public static int deleteJSONProductos(int id) throws IOException 
+	{
+		url = new URL(sitio+"productos/eliminar/" + id);
+		HttpURLConnection http;
+		http = (HttpURLConnection)url.openConnection();
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		try 
+		{
+			http.setRequestMethod("DELETE");
+		} catch (ProtocolException e) 
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		http.setDoOutput(true);
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		http.setRequestProperty("Content-Type", "application/json");
+		http.connect();
+		int respuesta = http.getResponseCode();
+		http.disconnect();
+		return respuesta;
+	}
+	
+	//LQ: Agregado 10/16/2021
+	public static int deleteJSONProveedores(int id) throws IOException 
+	{
+		url = new URL(sitio+"provedores/eliminar/" + id);
+		HttpURLConnection http;
+		http = (HttpURLConnection)url.openConnection();
+		String authStr = Base64.getEncoder().encodeToString(usuarioAPI.getBytes());
+		try 
+		{
+			http.setRequestMethod("DELETE");
+		} catch (ProtocolException e) 
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		http.setDoOutput(true);
+		http.setRequestProperty("Accept", "application/json");
+		http.setRequestProperty("Authorization", "Basic " + authStr); 
+		http.setRequestProperty("Content-Type", "application/json");
+		http.connect();
 		int respuesta = http.getResponseCode();
 		http.disconnect();
 		return respuesta;
@@ -227,6 +666,7 @@ public class TestJSON {
 	
 	
 	public static int postJSONUsuarios(Usuarios usuario) throws IOException {
+		System.out.println("Ingresó a TestJSON.PostJSONUsuarios");
 		url = new URL(sitio+"usuarios/guardar");
 		HttpURLConnection http;
 		http = (HttpURLConnection)url.openConnection();
@@ -244,10 +684,10 @@ public class TestJSON {
 		+ "\"cedula_usuario\":\""+ usuario.getCedula_usuario()
 		+"\",\"nombre_usuario\":\""+usuario.getNombre_usuario()
 		+"\",\"email_usuario\":\""+usuario.getEmail_usuario()
-		+"\",\"Usuario\":\""+usuario.getUsuario()
+		+"\",\"usuario\":\""+usuario.getUsuario()
 		+"\",\"password\":\""+usuario.getPassword()                       
-		//+"\",\"rol\":{\"id_rol\":\""+usuario.getRol().getId_rol()+"\"}"
-		+ "}";
+		+ "\"}";
+		System.out.println("Usuario a Guardar: " + data);
 		byte[] out = data.getBytes(StandardCharsets.UTF_8);
 		OutputStream stream = http.getOutputStream();
 		stream.write(out);
@@ -273,15 +713,13 @@ public class TestJSON {
 		http.setRequestProperty("Content-Type", "application/json");
 		System.out.print("Pasé por aquí1");
 		String data = "{"
-		+ "\"cedula_usuario\":\""+ usuario.getCedula_usuario()
-		+"\",\"nombre_usuario\":\""+usuario.getNombre_usuario()
-		+"\",\"email_usuario\":\""+usuario.getEmail_usuario()
-		+"\",\"Usuario\":\""+usuario.getUsuario()
-		+"\",\"password\":\""+usuario.getPassword()                       
-		//+"\",\"rol\":{\"id_rol\":\""+usuario.getRol().getId_rol()+"\"}"
-		+ "}";
+				+ "\"cedula_usuario\":\""+ usuario.getCedula_usuario()
+				+"\",\"nombre_usuario\":\""+usuario.getNombre_usuario()
+				+"\",\"email_usuario\":\""+usuario.getEmail_usuario()
+				+"\",\"usuario\":\""+usuario.getUsuario()
+				+"\",\"password\":\""+usuario.getPassword()                       
+				+ "\"}";
 		System.out.print(data);
-		System.out.print("Pasé por aquí2");
 		byte[] out = data.getBytes(StandardCharsets.UTF_8);
 		OutputStream stream = http.getOutputStream();
 		stream.write(out);
@@ -291,7 +729,9 @@ public class TestJSON {
 		return respuesta;
 		}
 	
-	public static int deleteJSONUsuarios(Long id) throws IOException {
+	public static int deleteJSONUsuarios(Long id) throws IOException 
+	{
+		System.out.println("Ingreso a TestJSON.deleteJSONUsuarios");
 		url = new URL(sitio+"usuarios/eliminar/"+id);
 		HttpURLConnection http;
 		http = (HttpURLConnection)url.openConnection();
@@ -307,6 +747,7 @@ public class TestJSON {
 		http.setRequestProperty("Content-Type", "application/json");
 		http.connect();
 		int respuesta = http.getResponseCode();
+		System.out.println("respuesta: " + respuesta);
 		http.disconnect();
 		return respuesta;
 		}

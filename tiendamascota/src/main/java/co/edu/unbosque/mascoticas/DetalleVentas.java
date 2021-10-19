@@ -1,15 +1,38 @@
 package co.edu.unbosque.mascoticas;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
+@Entity
+@Table(name="detalle_ventas")
 public class DetalleVentas 
 {
+	@Id
+	@GeneratedValue
 	private long codigo_detalle_venta;
+	
+	@Column(name="cantidad_producto")
 	private int cantidad_producto;
+	
+	@Column(name="valor_total")
 	private double valor_total;
+	
+	@Column(name="valor_venta")
 	private double valor_venta;
+	
+	@Column(name="valoriva")
 	private double valoriva;
-	private Productos producto;
+	
+	//Para las relaciones
+	@ManyToOne
+	private Productos productos;
+	
+	@ManyToOne
 	private Ventas ventas;
 	
 	public long getCodigo_detalle_venta() {
@@ -18,7 +41,6 @@ public class DetalleVentas
 	public void setCodigo_detalle_venta(long codigo_detalle_venta) {
 		this.codigo_detalle_venta = codigo_detalle_venta;
 	}
-	
 	
 	public int getCantidad_producto() {
 		return cantidad_producto;
@@ -44,23 +66,19 @@ public class DetalleVentas
 	public void setValoriva(double valoriva) {
 		this.valoriva = valoriva;
 	}
-	public Productos getProducto() {
-		return producto;
+	public Productos getProductos() {
+		return productos;
 	}
 	
 	//Para el manejo de las relaciones
-	public void setProducto(Productos producto) {
-		this.producto = producto;
+	public void setProductos(Productos productos) {
+		this.productos = productos;
 	}
 	public Ventas getVentas() {
 		return ventas;
 	}
 	public void setVentas(Ventas ventas) {
 		this.ventas = ventas;
-	}
-	public String getCodigo_producto() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 
