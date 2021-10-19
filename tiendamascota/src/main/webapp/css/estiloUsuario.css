@@ -16,3 +16,27 @@ body{
   padding: 70px 30px;
   
 }
+
+.botons {
+	font-family: arial, helvetica;
+	list-style: none;
+	padding: 0;
+	background: #000;
+	width: 50%;
+	max-width: 100px;
+	margin: auto;
+	text-align: center;
+	border: 3px solid #fff;
+	border-radius: 40px;
+}
+
+.botons li {
+	text-decoration: none;
+	color: white;
+	padding: 12px;
+	display: block;
+}
+
+.botons li :hover {
+  color: #8eedf3;
+}
