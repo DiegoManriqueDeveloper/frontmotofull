@@ -1,6 +1,15 @@
 @charset "ISO-8859-1";
+/*.titulo.avatar2 {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: left;
+ 
+}
+*/
 
 body {
+	
 	color: #000;
 	background: #efefef;
 	font-family: Helvetica, Arial, sans-serif;
@@ -65,7 +74,9 @@ td {
 	
 }
 
-
+.titulos {
+	color: #000;
+}
 
 
 /* creacionm de boton regresar */

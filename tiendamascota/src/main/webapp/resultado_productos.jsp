@@ -22,7 +22,7 @@
 			<li><a href="proveedores.jsp">proveedores</a>
 			<li><a style="background-color: purple" href="productos.jsp">producto</a>
 			<li><a href="ventas.jsp">ventas</a>
-			<li><a href="operacion_no.jsp">reporte</a>
+			<li><a href="detalles_Ventas.jsp">Detalles Ventas</a>
 			<li><a href="inicio.jsp"class="dropdown-item">salir</a>
 		</ul>	
 	<body>
@@ -30,7 +30,7 @@
 
 		<table width="100%" border="0">
 			<caption>Productos</caption>
-			<tr>
+			<tr class = "titulos">
 				<td><label>Código Producto</label></td>
 				<td><label>Nombre</label></td>
 				<td><label>Precio Venta</label></td>
