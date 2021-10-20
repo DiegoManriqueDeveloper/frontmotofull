@@ -8,18 +8,22 @@
 		<link rel="STYLESHEET" type="text/css" href="css/Principal.css">
 	
 </head>
-<body style="background-color: black">
+<body style="background-color: white">
 <div class ="titulo">
+<<<<<<< HEAD
+			<h1>Tienda Fullmotos</h1>
+=======
 	    	<h1>tienda fullmotos clientes</h1>
+>>>>>>> branch 'master' of https://github.com/DiegoManriqueDeveloper/frontmotofull.git
 	    </div>
 		<ul class="menu">
-			<li><a href="usuarios.jsp">usuarios</a>
-			<li><a style="background-color: purple" href="clientes.jsp">clientes </a>
-			<li><a href="proveedores.jsp">proveedores</a>
-			<li><a href="productos.jsp">producto</a>
-			<li><a href="ventas.jsp">ventas</a>
-			<li><a href="detalles_Ventas.jsp">detalles de ventas</a>
-			<li><a href="inicio.jsp"class="dropdown-item">salir</a>
+			<li><a href="usuarios.jsp">Usuarios</a>
+			<li><a style="background-color: purple" href="clientes.jsp">Clientes </a>
+			<li><a href="proveedores.jsp">Proveedores</a>
+			<li><a href="productos.jsp">Producto</a>
+			<li><a href="ventas.jsp">Ventas</a>
+			<li><a href="detalles_Ventas.jsp">Detalles de ventas</a>
+			<li><a href="inicio.jsp"class="dropdown-item">Salir</a>
 		</ul>	
 
 <body style="background-color: #0000">
@@ -30,7 +34,7 @@
 			<br>
 			<table class="formulario_datos">
 				<tr>
-					<td><label>Cedula:</label></td>
+					<td><label>Cédula:</label></td>
 					<td><input type="number" name="cedula_cliente"></td>
 				</tr>
 				<tr>
@@ -38,11 +42,11 @@
 					<td><input type="text" name="nombre_cliente"></td>
 				</tr>
 				<tr>
-					<td><label>Direccion:</label></td>
+					<td><label>Dirección:</label></td>
 					<td><input type="text" name="direccion_cliente"></td>
 				</tr>
 				<tr>
-					<td><label>Correo Electronico:</label></td>
+					<td><label>Correo Electrónico:</label></td>
 					<td><input type="email" name="email_cliente"></td>
 				</tr>
 				<tr>

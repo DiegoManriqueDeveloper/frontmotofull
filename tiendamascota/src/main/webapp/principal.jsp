@@ -11,15 +11,15 @@
 	</head>
 	<body style=background-image:url(img/moto2.jpg); class=>
 	    <div class ="titulo">
-	    	<h1>tienda motofull</h1>
+	    	<h1>Tienda Motofull</h1>
 	    </div>
 		<ul class="menu">
-			<li><a href="usuarios.jsp">usuarios</a>
-			<li><a href="clientes.jsp">clientes </a>
-			<li><a href="proveedores.jsp">proveedores</a>
-			<li><a href="productos.jsp">producto</a>
-			<li><a href="ventas.jsp">ventas</a>
-			<li><a href="detalles_Ventas.jsp">detalles de ventas</a>
-			<li><a href="inicio.jsp"class="dropdown-item">salir</a>
+			<li><a href="usuarios.jsp">Usuarios</a>
+			<li><a href="clientes.jsp">Clientes </a>
+			<li><a href="proveedores.jsp">Proveedores</a>
+			<li><a href="productos.jsp">Producto</a>
+			<li><a href="ventas.jsp">Ventas</a>
+			<li><a href="detalles_Ventas.jsp">Detalles de ventas</a>
+			<li><a href="inicio.jsp"class="dropdown-item">Salir</a>
 		</ul>		
 </html>

@@ -16,13 +16,16 @@
 					<label for="ussername">ussername </label>
 					<input name="txtUsuario" type= "text"placeholder ="enter ussername"><br>
 			
-					<label for="password">password </label>
-					<input name="txtPassword" type= "password" placeholder ="enter password">
+					<label for="password">Contraseña </label>
+					<input name="txtPassword" type= "password" placeholder ="Ingrese contraseña">
 			
 					<input type="submit" value ="Ingresar" name="validacionLogin">
 			
-					<a href ="#">olvidaste tu contraseÑa</a>
-					<a href ="#">do not have an account?</a>
+
+					<a href ="#">¿Olvido su contraseña?</a>
+					<a href ="#">¿No tiene una cuenta?</a>
+
+
 				</form>
 			</div>	
 	</body>
