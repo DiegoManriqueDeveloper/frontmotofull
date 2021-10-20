@@ -13,8 +13,8 @@
 				
 				<h1>MECHANIC SERVICES</h1>
 				<form method = "get" action ="Servlet">
-					<label for="ussername">ussername </label>
-					<input name="txtUsuario" type= "text"placeholder ="enter ussername"><br>
+					<label for="ussername">Usuario </label>
+					<input name="txtUsuario" type= "text"placeholder ="Ingrese Usuario"><br>
 			
 					<label for="password">Contraseña </label>
 					<input name="txtPassword" type= "password" placeholder ="Ingrese contraseña">
@@ -22,7 +22,7 @@
 					<input type="submit" value ="Ingresar" name="validacionLogin">
 			
 
-					<a href ="#">¿Olvido su contraseña?</a>
+					<a href ="#">¿Olvidó su contraseña?</a>
 					<a href ="#">¿No tiene una cuenta?</a>
 
 
