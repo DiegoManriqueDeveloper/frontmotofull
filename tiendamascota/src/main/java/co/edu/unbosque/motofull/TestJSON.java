@@ -1,4 +1,4 @@
-package co.edu.unbosque.mascoticas;
+package co.edu.unbosque.motofull;
 
 import java.io.IOException;
 import java.io.InputStream;

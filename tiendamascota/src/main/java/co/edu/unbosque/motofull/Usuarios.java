@@ -1,4 +1,4 @@
-package co.edu.unbosque.mascoticas;
+package co.edu.unbosque.motofull;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

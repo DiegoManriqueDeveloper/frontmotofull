@@ -2,8 +2,8 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <%@ page import='java.util.Date'%>
-<%@ page import='co.edu.unbosque.mascoticas.Productos'%>
-<%@ page import='co.edu.unbosque.mascoticas.Proveedores'%>
+<%@ page import='co.edu.unbosque.motofull.Productos'%>
+<%@ page import='co.edu.unbosque.motofull.Proveedores'%>
 <%@ page import='java.util.ArrayList'%>
 <html>
 <head>
